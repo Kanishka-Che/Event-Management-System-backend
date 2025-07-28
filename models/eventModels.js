@@ -16,7 +16,10 @@ const Event = {
     db.query('UPDATE events SET ? WHERE id = ?', [data, id], callback);
   },
   delete: (id, callback) => {
-    db.query('DELETE FROM events WHERE id = ?', [id], callback);
+    db.query('DELETE FROM events WHERE id = ?', [id], (err)=>{
+      if (err) return callback(err);
+      callback(null, { msg: "Event deleted successfully" });
+    });
   },
   registerAttendee: (eventId, attendee, callback) => {
     db.query('INSERT INTO attendees (event_id, name) VALUES (?, ?)', [eventId, attendee], callback);
